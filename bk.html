@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bimbingan Konseling Digital</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f1f5f9;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --bg-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .main-container {
+            min-height: 100vh;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h2 {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title i {
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--text-primary);
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1rem;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            background: #fafafa;
+        }
+
+        .file-input-label:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+            color: var(--primary);
+        }
+
+        .file-info {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .btn-refresh {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-export {
+            background: var(--accent);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        tr:hover {
+            background: rgba(37, 99, 235, 0.03);
+        }
+
+        .action-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            margin-right: 0.5rem;
+        }
+
+        .action-link:hover {
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .action-link.delete {
+            color: var(--danger);
+        }
+
+        .action-link.delete:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s ease-out;
+            position: relative;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px) scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close:hover {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: var(--secondary);
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 140px;
+            margin-right: 1rem;
+        }
+
+        .detail-value {
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .photo-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .photo-item {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--border);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .error-input {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .modal-content {
+                margin: 10% auto;
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 1100;
+            animation: slideInRight 0.3s ease-out;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.warning {
+            background: var(--warning);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="content-wrapper">
+            <div class="header">
+                <h1>Bimbingan Konseling Digital</h1>
+                <h2>SD NEGERI 40 PONTIANAK UTARA</h2>
+                <p>Sistem pencatatan dan monitoring bimbingan siswa yang modern dan efisien</p>
+            </div>
+
+            <!-- Statistics Section -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalBimbingan">0</div>
+                    <div class="stat-label">Total Bimbingan</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="bulanIni">0</div>
+                    <div class="stat-label">Bulan Ini</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="mingguIni">0</div>
+                    <div class="stat-label">Minggu Ini</div>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+            <div class="section-card">
+                <h3 class="section-title">
+                    <i class="fas fa-edit"></i>
+                    Formulir Bimbingan Konseling
+                </h3>
+                <form id="counselingForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tanggal" class="form-label">
+                                <i class="fas fa-calendar"></i> Tanggal Bimbingan
+                            </label>
+                            <input type="date" id="tanggal" name="tanggal" required class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="namaSiswa" class="form-label">
+                                <i class="fas fa-user"></i> Nama Siswa
+                            </label>
+                            <input type="text" id="namaSiswa" name="namaSiswa" required class="form-input" placeholder="Masukkan nama siswa">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kelas" class="form-label">
+                                <i class="fas fa-school"></i> Kelas Siswa
+                            </label>
+                            <select id="kelas" name="kelas" required class="form-select">
+                                <option value="">Pilih Kelas</option>
+                                <option value="Kelas 1">Kelas 1</option>
+                                <option value="Kelas 2 A">Kelas 2 A</option>
+                                <option value="Kelas 2 B">Kelas 2 B</option>
+                                <option value="Kelas 3 A">Kelas 3 A</option>
+                                <option value="Kelas 3 B">Kelas 3 B</option>
+                                <option value="Kelas 4 A">Kelas 4 A</option>
+                                <option value="Kelas 4 B">Kelas 4 B</option>
+                                <option value="Kelas 5 A">Kelas 5 A</option>
+                                <option value="Kelas 5 B">Kelas 5 B</option>
+                                <option value="Kelas 6 A">Kelas 6 A</option>
+                                <option value="Kelas 6 B">Kelas 6 B</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="namaKonselor" class="form-label">
+                                <i class="fas fa-user-tie"></i> Nama Konselor
+                            </label>
+                            <input type="text" id="namaKonselor" name="namaKonselor" required class="form-input" placeholder="Masukkan nama konselor">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jabatan" class="form-label">
+                                <i class="fas fa-id-badge"></i> Jabatan Konselor
+                            </label>
+                            <select id="jabatan" name="jabatan" required class="form-select">
+                                <option value="">Pilih Jabatan</option>
+                                <option value="Wali Kelas">Wali Kelas</option>
+                                <option value="Guru Mapel">Guru Mapel</option>
+                                <option value="Kepala Sekolah">Kepala Sekolah</option>
+                                <option value="Guru BK">Guru BK</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pelanggaran" class="form-label">
+                                <i class="fas fa-exclamation-triangle"></i> Jenis Pelanggaran
+                            </label>
+                            <input type="text" id="pelanggaran" name="pelanggaran" required class="form-input" placeholder="Contoh: Terlambat, Tidak mengerjakan PR">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="detailPelanggaran" class="form-label">
+                                <i class="fas fa-file-alt"></i> Detail Pelanggaran
+                            </label>
+                            <textarea id="detailPelanggaran" name="detailPelanggaran" required class="form-textarea" placeholder="Jelaskan detail pelanggaran yang terjadi..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bimbingan" class="form-label">
+                                <i class="fas fa-comments"></i> Jenis Bimbingan
+                            </label>
+                            <input type="text" id="bimbingan" name="bimbingan" required class="form-input" placeholder="Contoh: Bimbingan Individual, Konseling Kelompok">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="solusi" class="form-label">
+                                <i class="fas fa-lightbulb"></i> Solusi/Tindakan yang Diberikan
+                            </label>
+                            <textarea id="solusi" name="solusi" required class="form-textarea" placeholder="Jelaskan solusi atau tindakan yang diberikan..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="foto" class="form-label">
+                                <i class="fas fa-camera"></i> Foto Dokumentasi
+                            </label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png" multiple class="file-input">
+                                <label for="foto" class="file-input-label">
+                                    <i class="fas fa-upload"></i>
+                                    Pilih Foto Dokumentasi
+                                </label>
+                            </div>
+                            <div class="file-info">
+                                <i class="fas fa-info-circle"></i>
+                                Format: JPG, PNG, JPEG. Maksimal 5MB per foto.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fotoTambahan" class="form-label">
+                                <i class="fas fa-images"></i> Foto Tambahan
+                            </label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="fotoTambahan" name="fotoTambahan" accept=".jpg,.jpeg,.png" multiple class="file-input">
+                                <label for="fotoTambahan" class="file-input-label">
+                                    <i class="fas fa-upload"></i>
+                                    Pilih Foto Tambahan
+                                </label>
+                            </div>
+                            <div class="file-info">
+                                <i class="fas fa-info-circle"></i>
+                                Foto pendukung untuk dokumentasi lengkap.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn">
+                        <i class="fas fa-save"></i>
+                        Simpan Data Bimbingan
+                    </button>
+                </form>
+            </div>
+
+            <!-- Data Section -->
+            <div class="section-card">
+                <h3 class="section-title">
+                    <i class="fas fa-table"></i>
+                    Rekap Data Bimbingan
+                </h3>
+                
+                <div class="action-buttons">
+                    <button id="refreshBtn" class="action-btn btn-refresh">
+                        <i class="fas fa-sync"></i>
+                        Refresh Data
+                    </button>
+                    <!--<button id="exportBtn" class="action-btn btn-export">
+                        <i class="fas fa-file-excel"></i>
+                        Export Excel
+                    </button>-->
+                    <button id="exportCSVBtn" class="action-btn" style="background: var(--success); color: white;">
+                        <i class="fas fa-file-csv"></i>
+                        Export CSV
+                    </button>
+                    <!--<button id="exportXLSBtn" class="action-btn" style="background: var(--warning); color: white;">
+                        <i class="fas fa-table"></i>
+                        Export XLS
+                    </button>-->
+                </div>
+
+                <div class="table-wrapper">
+                    <div class="table-container">
+                        <table id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-hashtag"></i> No</th>
+                                    <th><i class="fas fa-calendar"></i> Tanggal</th>
+                                    <th><i class="fas fa-user"></i> Nama Siswa</th>
+                                    <th><i class="fas fa-school"></i> Kelas</th>
+                                    <th><i class="fas fa-user-tie"></i> Konselor</th>
+                                    <th><i class="fas fa-exclamation-triangle"></i> Pelanggaran</th>
+                                    <th><i class="fas fa-comments"></i> Bimbingan</th>
+                                    <th><i class="fas fa-camera"></i> Foto</th>
+                                    <th><i class="fas fa-cogs"></i> Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <tr>
+                                    <td colspan="9" class="empty-state">
+                                        <i class="fas fa-sync fa-spin"></i>
+                                        <div>Memuat data dari Google Sheets...</div>
+                                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">Klik tombol refresh untuk memperbarui data</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="loading-spinner"></div>
+                <span>Menyimpan ke Google Sheets...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('successModal')">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success); margin-bottom: 1rem;"></i>
+                <h3>Data Berhasil Disimpan!</h3>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Data bimbingan konseling telah tersimpan ke Google Sheets</p>
+            </div>
+            <button onclick="closeModal('successModal')" class="submit-btn" style="margin-top: 1.5rem;">
+                <i class="fas fa-check"></i>
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('errorModal')">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: var(--danger); margin-bottom: 1rem;"></i>
+                <h3>Gagal Menyimpan Data</h3>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Terjadi kesalahan saat menyimpan ke Google Sheets. Silakan coba lagi.</p>
+            </div>
+            <button onclick="closeModal('errorModal')" class="submit-btn" style="background: var(--danger); margin-top: 1.5rem;">
+                <i class="fas fa-times"></i>
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close" onclick="closeModal('detailModal')">&times;</span>
+            <div class="modal-header">
+                <h3><i class="fas fa-info-circle"></i> Detail Bimbingan Konseling</h3>
+            </div>
+            <div id="detailContent" class="space-y-2"></div>
+            <button onclick="closeModal('detailModal')" class="submit-btn" style="margin-top: 1.5rem;">
+                <i class="fas fa-arrow-left"></i>
+                Kembali
+            </button>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('deleteModal')">&times;</span>
+            <div class="modal-header">
+                <i class="fas fa-trash-alt" style="font-size: 3rem; color: var(--danger); margin-bottom: 1rem;"></i>
+                <h3>Konfirmasi Hapus Data</h3>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Apakah Anda yakin ingin menghapus data bimbingan ini? Tindakan ini tidak dapat dibatalkan.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+                <button onclick="closeModal('deleteModal')" class="action-btn" style="background: var(--text-secondary); color: white; justify-content: center;">
+                    <i class="fas fa-times"></i>
+                    Batal
+                </button>
+                <button id="confirmDeleteBtn" class="action-btn" style="background: var(--danger); color: white; justify-content: center;">
+                    <i class="fas fa-trash"></i>
+                    Hapus Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL Configuration and Testing
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtwcMWpLdguFEtqGyDqLbu_OStBJ7L4avLVTksCulg4ENjePw_rROsFJ4DCsbCak-LOw/exec';
+
+        // Test connection to Google Sheets
+        async function testConnection() {
+            try {
+                console.log('Testing connection to Google Sheets...');
+                const response = await fetch(SCRIPT_URL + '?action=test', {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    console.log('✅ Connection to Google Sheets successful');
+                    return true;
+                } else {
+                    console.error('❌ Connection failed:', response.status, response.statusText);
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ Connection test failed:', error);
+                return false;
+            }
+        }
+
+        // Alternative data submission method
+        async function submitWithAlternativeMethod(data) {
+            try {
+                // Try using FormData approach
+                const formData = new FormData();
+                formData.append('action', 'saveData');
+                formData.append('data', JSON.stringify(data));
+
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                return response.ok;
+            } catch (error) {
+                console.error('Alternative method failed:', error);
+                return false;
+            }
+        }
+
+        // Fallback: Store data locally when Google Sheets is unavailable
+        function storeDataLocally(data) {
+            try {
+                const localData = JSON.parse(sessionStorage.getItem('bk_offline_data') || '[]');
+                localData.push({
+                    ...data,
+                    id: Date.now(),
+                    offline: true,
+                    timestamp: new Date().toISOString()
+                });
+                sessionStorage.setItem('bk_offline_data', JSON.stringify(localData));
+                return true;
+            } catch (error) {
+                console.error('Failed to store data locally:', error);
+                return false;
+            }
+        }
+
+        function loadLocalData() {
+            try {
+                const localData = JSON.parse(sessionStorage.getItem('bk_offline_data') || '[]');
+                if (localData.length > 0) {
+                    console.log('Found offline data:', localData.length, 'records');
+                    return localData;
+                }
+            } catch (error) {
+                console.error('Failed to load local data:', error);
+            }
+            return [];
+        }
+
+        function clearLocalData() {
+            sessionStorage.removeItem('bk_offline_data');
+        }
+
+        // Global variables for data management
+        let currentData = [];
+        let deleteRowIndex = null;
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i>
+                ${message}
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s ease-out reverse';
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        // Format date function
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const dayName = days[date.getDay()];
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${dayName}, ${day}/${month}/${year}`;
+        }
+
+        // Calculate statistics
+        function updateStatistics(data) {
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+            const currentWeek = getWeekNumber(now);
+
+            const total = data.length;
+            const thisMonth = data.filter(item => {
+                const itemDate = new Date(item.tanggal);
+                return itemDate.getMonth() === currentMonth && itemDate.getFullYear() === currentYear;
+            }).length;
+
+            const thisWeek = data.filter(item => {
+                const itemDate = new Date(item.tanggal);
+                return getWeekNumber(itemDate) === currentWeek && itemDate.getFullYear() === currentYear;
+            }).length;
+
+            document.getElementById('totalBimbingan').textContent = total;
+            document.getElementById('bulanIni').textContent = thisMonth;
+            document.getElementById('mingguIni').textContent = thisWeek;
+        }
+
+        function getWeekNumber(date) {
+            const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+            const dayNum = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        }
+
+        // Initialize application with connection testing
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 Initializing Bimbingan Konseling Digital...');
+            
+            // Test connection first
+            const isConnected = await testConnection();
+            if (!isConnected) {
+                showNotification('Peringatan: Koneksi ke Google Sheets bermasalah. Data akan disimpan sementara di browser.', 'error');
+            }
+            
+            loadData();
+            setupEventListeners();
+            setDefaultDate();
+            
+            // Check for offline data
+            const offlineData = loadLocalData();
+            if (offlineData.length > 0) {
+                showNotification(`Ditemukan ${offlineData.length} data offline. Klik "Sync Data" untuk mengirim ke Google Sheets.`, 'warning');
+                addSyncButton();
+            }
+        });
+
+        function addSyncButton() {
+            const actionButtons = document.querySelector('.action-buttons');
+            const syncBtn = document.createElement('button');
+            syncBtn.id = 'syncBtn';
+            syncBtn.className = 'action-btn';
+            syncBtn.style.background = 'var(--warning)';
+            syncBtn.style.color = 'white';
+            syncBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Sync Data Offline';
+            syncBtn.onclick = syncOfflineData;
+            actionButtons.appendChild(syncBtn);
+        }
+
+        async function syncOfflineData() {
+            const offlineData = loadLocalData();
+            if (offlineData.length === 0) {
+                showNotification('Tidak ada data offline untuk disinkronkan');
+                return;
+            }
+
+            const syncBtn = document.getElementById('syncBtn');
+            syncBtn.innerHTML = '<div class="loading-spinner"></div> Syncing...';
+            syncBtn.disabled = true;
+
+            let successCount = 0;
+            let failCount = 0;
+
+            for (const data of offlineData) {
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'text/plain',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        successCount++;
+                    } else {
+                        failCount++;
+                    }
+                } catch (error) {
+                    failCount++;
+                    console.error('Sync failed for item:', error);
+                }
+            }
+
+            if (successCount > 0) {
+                clearLocalData();
+                showNotification(`${successCount} data berhasil disinkronkan ke Google Sheets`);
+                loadData();
+                
+                if (syncBtn.parentNode) {
+                    syncBtn.parentNode.removeChild(syncBtn);
+                }
+            }
+
+            if (failCount > 0) {
+                showNotification(`${failCount} data gagal disinkronkan`, 'error');
+            }
+
+            syncBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Sync Data Offline';
+            syncBtn.disabled = false;
+        }
+
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggal').value = today;
+        }
+
+        function setupEventListeners() {
+            const form = document.getElementById('counselingForm');
+            form.addEventListener('submit', handleSubmit);
+            document.getElementById('refreshBtn').addEventListener('click', loadData);
+            document.getElementById('exportBtn').addEventListener('click', exportToExcel);
+            document.getElementById('exportCSVBtn').addEventListener('click', exportToCSV);
+            document.getElementById('exportXLSBtn').addEventListener('click', exportToExcelClientSide);
+
+            // Enhanced form validation
+            form.querySelectorAll('input[required], select[required], textarea[required]').forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', () => {
+                    input.classList.remove('error-input');
+                });
+            });
+
+            // File input feedback
+            document.getElementById('foto').addEventListener('change', handleFileSelection);
+            document.getElementById('fotoTambahan').addEventListener('change', handleFileSelection);
+        }
+
+        function validateField(event) {
+            const field = event.target;
+            if (!field.value.trim()) {
+                field.classList.add('error-input');
+                return false;
+            }
+            field.classList.remove('error-input');
+            return true;
+        }
+
+        function handleFileSelection(event) {
+            const input = event.target;
+            const label = input.nextElementSibling;
+            const files = input.files;
+
+            if (files.length > 0) {
+                const fileNames = Array.from(files).map(f => f.name).join(', ');
+                label.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    ${files.length} file(s) dipilih
+                `;
+                label.style.background = 'rgba(16, 185, 129, 0.1)';
+                label.style.borderColor = 'var(--success)';
+                label.style.color = 'var(--success)';
+            } else {
+                label.innerHTML = `
+                    <i class="fas fa-upload"></i>
+                    ${input.id === 'foto' ? 'Pilih Foto Dokumentasi' : 'Pilih Foto Tambahan'}
+                `;
+                label.style.background = '#fafafa';
+                label.style.borderColor = 'var(--border)';
+                label.style.color = 'var(--text-secondary)';
+            }
+        }
+
+        // Enhanced form submission with better error handling
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Validate all required fields
+            let isValid = true;
+            form.querySelectorAll('input[required], select[required], textarea[required]').forEach(field => {
+                if (!validateField({ target: field })) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                showNotification('Harap lengkapi semua field yang wajib diisi', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loading-spinner"></div> Menyimpan...';
+            showModal('loadingModal');
+
+            const formData = new FormData(form);
+            const tanggal = formData.get('tanggal');
+            
+            const data = {
+                tanggal: formatDate(tanggal),
+                namaSiswa: formData.get('namaSiswa'),
+                kelas: formData.get('kelas'),
+                namaKonselor: formData.get('namaKonselor'),
+                jabatan: formData.get('jabatan'),
+                pelanggaran: formData.get('pelanggaran'),
+                detailPelanggaran: formData.get('detailPelanggaran'),
+                bimbingan: formData.get('bimbingan'),
+                solusi: formData.get('solusi'),
+                foto: []
+            };
+
+            // Process files with better error handling
+            const files = [...formData.getAll('foto'), ...formData.getAll('fotoTambahan')];
+            for (const file of files) {
+                if (file.size > 0) {
+                    if (file.size > 5 * 1024 * 1024) {
+                        showNotification('Ukuran file melebihi 5MB!', 'error');
+                        hideModal('loadingModal');
+                        resetSubmitButton();
+                        return;
+                    }
+                    
+                    try {
+                        const base64 = await fileToBase64(file);
+                        data.foto.push({ name: file.name, data: base64 });
+                    } catch (error) {
+                        showNotification('Gagal memproses file foto', 'error');
+                        hideModal('loadingModal');
+                        resetSubmitButton();
+                        return;
+                    }
+                }
+            }
+
+            // Multiple retry attempts with exponential backoff
+            let attempts = 0;
+            const maxAttempts = 3;
+            
+            while (attempts < maxAttempts) {
+                try {
+                    console.log(`Attempt ${attempts + 1} to save data...`);
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+                    
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'text/plain',
+                        },
+                        body: JSON.stringify(data),
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+
+                    if (response.ok) {
+                        const result = await response.text();
+                        console.log('Response text:', result);
+                        
+                        hideModal('loadingModal');
+                        showModal('successModal');
+                        form.reset();
+                        resetFileInputs();
+                        setDefaultDate();
+                        loadData();
+                        showNotification('Data berhasil disimpan ke Google Sheets!');
+                        return; // Success, exit the retry loop
+                    } else {
+                        const errorText = await response.text();
+                        console.error('Server error response:', errorText);
+                        throw new Error(`Server returned ${response.status}: ${errorText}`);
+                    }
+                } catch (error) {
+                    attempts++;
+                    console.error(`Attempt ${attempts} failed:`, error);
+                    
+                    if (attempts >= maxAttempts) {
+                        // Try alternative method before giving up
+                        console.log('Trying alternative submission method...');
+                        const alternativeSuccess = await submitWithAlternativeMethod(data);
+                        
+                        if (alternativeSuccess) {
+                            hideModal('loadingModal');
+                            showModal('successModal');
+                            form.reset();
+                            resetFileInputs();
+                            setDefaultDate();
+                            loadData();
+                            showNotification('Data berhasil disimpan (metode alternatif)!');
+                            resetSubmitButton();
+                            return;
+                        }
+
+                        // If all methods fail, store locally
+                        const localSuccess = storeDataLocally(data);
+                        hideModal('loadingModal');
+                        
+                        if (localSuccess) {
+                            showNotification('Data disimpan offline. Akan disinkronkan saat koneksi tersedia.', 'warning');
+                            form.reset();
+                            resetFileInputs();
+                            setDefaultDate();
+                            addSyncButton();
+                        } else {
+                            showModal('errorModal');
+                            
+                            let errorMessage = 'Gagal menyimpan data setelah beberapa percobaan. ';
+                            if (error.name === 'AbortError') {
+                                errorMessage += 'Koneksi timeout - periksa koneksi internet Anda.';
+                            } else if (error.message.includes('CORS')) {
+                                errorMessage += 'Masalah CORS - periksa konfigurasi Google Apps Script.';
+                            } else if (error.message.includes('404')) {
+                                errorMessage += 'URL Google Apps Script tidak ditemukan.';
+                            } else {
+                                errorMessage += 'Periksa koneksi internet dan coba lagi.';
+                            }
+                            
+                            showNotification(errorMessage, 'error');
+                        }
+                        break;
+                    } else {
+                        // Wait before retry (exponential backoff)
+                        const delay = Math.pow(2, attempts) * 1000;
+                        console.log(`Retrying in ${delay}ms...`);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+                }
+            }
+
+            resetSubmitButton();
+        }
+
+        function resetSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Simpan Data Bimbingan';
+        }
+
+        function resetFileInputs() {
+            ['foto', 'fotoTambahan'].forEach(id => {
+                const input = document.getElementById(id);
+                const label = input.nextElementSibling;
+                input.value = '';
+                label.innerHTML = `
+                    <i class="fas fa-upload"></i>
+                    ${id === 'foto' ? 'Pilih Foto Dokumentasi' : 'Pilih Foto Tambahan'}
+                `;
+                label.style.background = '#fafafa';
+                label.style.borderColor = 'var(--border)';
+                label.style.color = 'var(--text-secondary)';
+            });
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Enhanced data loading with better error handling
+        async function loadData() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            const originalText = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<div class="loading-spinner"></div> Loading...';
+            refreshBtn.disabled = true;
+
+            let attempts = 0;
+            const maxAttempts = 3;
+
+            while (attempts < maxAttempts) {
+                try {
+                    console.log(`Loading data attempt ${attempts + 1}...`);
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
+
+                    const response = await fetch(SCRIPT_URL + '?action=getData', {
+                        method: 'GET',
+                        mode: 'cors',
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        currentData = result.data || [];
+                        renderTable(currentData);
+                        updateStatistics(currentData);
+                        
+                        if (currentData.length > 0) {
+                            showNotification('Data berhasil dimuat');
+                        }
+                        break; // Success, exit retry loop
+                    } else {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                } catch (error) {
+                    attempts++;
+                    console.error(`Load data attempt ${attempts} failed:`, error);
+                    
+                    if (attempts >= maxAttempts) {
+                        console.error('Failed to load data after all attempts');
+                        
+                        let errorMessage = 'Gagal memuat data. ';
+                        if (error.name === 'AbortError') {
+                            errorMessage += 'Koneksi timeout - periksa koneksi internet.';
+                        } else if (error.message.includes('CORS')) {
+                            errorMessage += 'Masalah CORS - periksa konfigurasi Google Apps Script.';
+                        } else {
+                            errorMessage += 'Periksa koneksi internet dan URL Google Apps Script.';
+                        }
+                        
+                        showNotification(errorMessage, 'error');
+                        renderOfflineTable();
+                        break;
+                    } else {
+                        // Wait before retry
+                        const delay = Math.pow(2, attempts) * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+                }
+            }
+
+            refreshBtn.innerHTML = originalText;
+            refreshBtn.disabled = false;
+        }
+
+        function renderOfflineTable() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="9" class="empty-state">
+                        <i class="fas fa-wifi" style="color: var(--danger);"></i>
+                        <div>Tidak dapat terhubung ke Google Sheets</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+                            Periksa koneksi internet dan klik refresh untuk mencoba lagi
+                        </div>
+                        <button onclick="loadData()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                            <i class="fas fa-refresh"></i> Coba Lagi
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }
+
+        function renderTable(data) {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            if (data && data.length > 0) {
+                data.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-50';
+                    tr.innerHTML = `
+                        <td class="py-3 px-4 font-semibold">${index + 1}</td>
+                        <td class="py-3 px-4">${formatDate(row.tanggal)}</td>
+                        <td class="py-3 px-4 font-medium">${row.namaSiswa}</td>
+                        <td class="py-3 px-4">
+                            <span class="status-badge" style="background: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                                ${row.kelas}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">${row.namaKonselor}</td>
+                        <td class="py-3 px-4">${truncateText(row.pelanggaran, 30)}</td>
+                        <td class="py-3 px-4">${truncateText(row.bimbingan, 30)}</td>
+                        <td class="py-3 px-4">
+                            ${row.foto && row.foto.length > 0 ? 
+                                `<span class="status-badge status-success">
+                                    <i class="fas fa-camera"></i> ${row.foto.length} foto
+                                </span>` : 
+                                '<span style="color: var(--text-secondary);">-</span>'
+                            }
+                        </td>
+                        <td class="py-3 px-4">
+                            <button onclick='showDetail(${JSON.stringify(row).replace(/'/g, "\\'")})'
+                                    class="action-link">
+                                <i class="fas fa-eye"></i> Detail
+                            </button>
+                            <button onclick='confirmDelete(${index + 2})'
+                                    class="action-link delete">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } else {
+                renderEmptyTable();
+            }
+        }
+
+        function renderEmptyTable() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="9" class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <div>Belum ada data bimbingan konseling</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">Silakan tambahkan data baru menggunakan formulir di atas</div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        function truncateText(text, maxLength) {
+            if (!text) return '-';
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+
+        // Enhanced detail modal
+        function showDetail(row) {
+            const detailContent = document.getElementById('detailContent');
+            detailContent.innerHTML = `
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-calendar"></i> Tanggal:</div>
+                    <div class="detail-value">${formatDate(row.tanggal)}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-user"></i> Nama Siswa:</div>
+                    <div class="detail-value">${row.namaSiswa}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-school"></i> Kelas:</div>
+                    <div class="detail-value">${row.kelas}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-user-tie"></i> Konselor:</div>
+                    <div class="detail-value">${row.namaKonselor} (${row.jabatan})</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-exclamation-triangle"></i> Pelanggaran:</div>
+                    <div class="detail-value">${row.pelanggaran}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-file-alt"></i> Detail:</div>
+                    <div class="detail-value">${row.detailPelanggaran}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-comments"></i> Bimbingan:</div>
+                    <div class="detail-value">${row.bimbingan}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-lightbulb"></i> Solusi:</div>
+                    <div class="detail-value">${row.solusi}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"><i class="fas fa-camera"></i> Dokumentasi:</div>
+                    <div class="detail-value">
+                        ${row.foto && row.foto.length > 0 ? 
+                            row.foto.map(f => `
+                                <a href="${f.data}" target="_blank" class="action-link" style="display: inline-block; margin: 0.25rem 0.5rem 0.25rem 0;">
+                                    <i class="fas fa-external-link-alt"></i> ${f.name}
+                                </a>
+                            `).join('') : 
+                            '<span style="color: var(--text-secondary);">Tidak ada foto dokumentasi</span>'
+                        }
+                    </div>
+                </div>
+            `;
+            showModal('detailModal');
+        }
+
+        // Delete functionality
+        function confirmDelete(rowIndex) {
+            deleteRowIndex = rowIndex;
+            showModal('deleteModal');
+            document.getElementById('confirmDeleteBtn').onclick = () => deleteRecord(rowIndex);
+        }
+
+        async function deleteRecord(rowIndex) {
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            confirmBtn.innerHTML = '<div class="loading-spinner"></div> Menghapus...';
+            confirmBtn.disabled = true;
+
+            try {
+                const response = await fetch(SCRIPT_URL + '?action=delete&rowIndex=' + rowIndex, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    hideModal('deleteModal');
+                    showNotification('Data berhasil dihapus');
+                    loadData();
+                } else {
+                    throw new Error('Failed to delete');
+                }
+            } catch (error) {
+                showNotification('Gagal menghapus data', 'error');
+                console.error('Error:', error);
+            } finally {
+                confirmBtn.innerHTML = '<i class="fas fa-trash"></i> Hapus Data';
+                confirmBtn.disabled = false;
+            }
+        }
+
+        // Enhanced export functionality with multiple methods
+        async function exportToExcel() {
+            const exportBtn = document.getElementById('exportBtn');
+            const originalText = exportBtn.innerHTML;
+            exportBtn.innerHTML = '<div class="loading-spinner"></div> Exporting...';
+            exportBtn.disabled = true;
+
+            try {
+                // Method 1: Try direct Excel export from Google Sheets
+                console.log('Attempting Excel export...');
+                
+                const response = await fetch(SCRIPT_URL + '?action=exportExcel', {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+
+                if (response.ok) {
+                    // Check if response is actually a file
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/')) {
+                        const blob = await response.blob();
+                        downloadFile(blob, 'Data_Bimbingan_Konseling.xlsx');
+                        showNotification('Export Excel berhasil!');
+                    } else {
+                        throw new Error('Invalid response format');
+                    }
+                } else {
+                    throw new Error(`Export failed: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Direct export failed:', error);
+                
+                // Method 2: Fallback to CSV export
+                try {
+                    console.log('Trying CSV export fallback...');
+                    await exportToCSV();
+                } catch (csvError) {
+                    console.error('CSV export also failed:', csvError);
+                    
+                    // Method 3: Client-side export using current data
+                    console.log('Using client-side export...');
+                    exportDataClientSide();
+                }
+            } finally {
+                exportBtn.innerHTML = originalText;
+                exportBtn.disabled = false;
+            }
+        }
+
+        // Fallback CSV export
+        async function exportToCSV() {
+            const response = await fetch(SCRIPT_URL + '?action=exportCSV', {
+                method: 'GET',
+                mode: 'cors'
+            });
+
+            if (response.ok) {
+                const csvData = await response.text();
+                const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+                downloadFile(blob, 'Data_Bimbingan_Konseling.csv');
+                showNotification('Export CSV berhasil!');
+            } else {
+                throw new Error('CSV export failed');
+            }
+        }
+
+        // Client-side export using current data
+        function exportDataClientSide() {
+            if (!currentData || currentData.length === 0) {
+                showNotification('Tidak ada data untuk diekspor', 'error');
+                return;
+            }
+
+            // Create CSV content
+            const headers = [
+                'No',
+                'Tanggal',
+                'Nama Siswa',
+                'Kelas',
+                'Nama Konselor',
+                'Jabatan Konselor',
+                'Jenis Pelanggaran',
+                'Detail Pelanggaran',
+                'Jenis Bimbingan',
+                'Solusi/Tindakan',
+                'Jumlah Foto'
+            ];
+
+            let csvContent = headers.join(',') + '\n';
+
+            currentData.forEach((row, index) => {
+                const csvRow = [
+                    index + 1,
+                    `"${formatDate(row.tanggal)}"`,
+                    `"${row.namaSiswa || ''}"`,
+                    `"${row.kelas || ''}"`,
+                    `"${row.namaKonselor || ''}"`,
+                    `"${row.jabatan || ''}"`,
+                    `"${row.pelanggaran || ''}"`,
+                    `"${(row.detailPelanggaran || '').replace(/"/g, '""')}"`,
+                    `"${row.bimbingan || ''}"`,
+                    `"${(row.solusi || '').replace(/"/g, '""')}"`,
+                    row.foto ? row.foto.length : 0
+                ];
+                csvContent += csvRow.join(',') + '\n';
+            });
+
+            // Add BOM for proper UTF-8 encoding in Excel
+            const BOM = '\uFEFF';
+            const blob = new Blob([BOM + csvContent], { 
+                type: 'text/csv;charset=utf-8;' 
+            });
+            
+            downloadFile(blob, 'Data_Bimbingan_Konseling.csv');
+            showNotification('Export CSV berhasil! (Mode offline)');
+        }
+
+        // Alternative: Generate Excel using client-side library
+        function exportToExcelClientSide() {
+            if (!currentData || currentData.length === 0) {
+                showNotification('Tidak ada data untuk diekspor', 'error');
+                return;
+            }
+
+            // Create HTML table for Excel export
+            let htmlTable = `
+                <table border="1" style="border-collapse: collapse;">
+                    <tr style="background-color: #f0f0f0; font-weight: bold;">
+                        <td>No</td>
+                        <td>Tanggal</td>
+                        <td>Nama Siswa</td>
+                        <td>Kelas</td>
+                        <td>Nama Konselor</td>
+                        <td>Jabatan Konselor</td>
+                        <td>Jenis Pelanggaran</td>
+                        <td>Detail Pelanggaran</td>
+                        <td>Jenis Bimbingan</td>
+                        <td>Solusi/Tindakan</td>
+                        <td>Jumlah Foto</td>
+                    </tr>
+            `;
+
+            currentData.forEach((row, index) => {
+                htmlTable += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${formatDate(row.tanggal)}</td>
+                        <td>${row.namaSiswa || ''}</td>
+                        <td>${row.kelas || ''}</td>
+                        <td>${row.namaKonselor || ''}</td>
+                        <td>${row.jabatan || ''}</td>
+                        <td>${row.pelanggaran || ''}</td>
+                        <td>${(row.detailPelanggaran || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>
+                        <td>${row.bimbingan || ''}</td>
+                        <td>${(row.solusi || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>
+                        <td>${row.foto ? row.foto.length : 0}</td>
+                    </tr>
+                `;
+            });
+
+            htmlTable += '</table>';
+
+            const blob = new Blob([htmlTable], { 
+                type: 'application/vnd.ms-excel' 
+            });
+            
+            downloadFile(blob, 'Data_Bimbingan_Konseling.xls');
+            showNotification('Export Excel berhasil! (Format XLS)');
+        }
+
+        // Universal download function
+        function downloadFile(blob, filename) {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        // Direct CSV export function
+        async function exportToCSV() {
+            const btn = document.getElementById('exportCSVBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loading-spinner"></div> Exporting...';
+            btn.disabled = true;
+
+            try {
+                exportDataClientSide();
+            } catch (error) {
+                showNotification('Gagal export CSV', 'error');
+                console.error('CSV export error:', error);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Direct XLS export function
+        async function exportToExcelClientSide() {
+            const btn = document.getElementById('exportXLSBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loading-spinner"></div> Exporting...';
+            btn.disabled = true;
+
+            try {
+                exportToExcelClientSide();
+            } catch (error) {
+                showNotification('Gagal export XLS', 'error');
+                console.error('XLS export error:', error);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Enhanced client-side Excel export
+        function generateExcelFile() {
+            if (!currentData || currentData.length === 0) {
+                showNotification('Tidak ada data untuk diekspor', 'error');
+                return;
+            }
+
+            // Create comprehensive Excel content
+            let excelContent = `
+                <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+                <head>
+                    <meta charset="utf-8">
+                    <!--[if gte mso 9]>
+                    <xml>
+                        <x:ExcelWorkbook>
+                            <x:ExcelWorksheets>
+                                <x:ExcelWorksheet>
+                                    <x:Name>Data Bimbingan Konseling</x:Name>
+                                    <x:WorksheetOptions>
+                                        <x:DisplayGridlines/>
+                                    </x:WorksheetOptions>
+                                </x:ExcelWorksheet>
+                            </x:ExcelWorksheets>
+                        </x:ExcelWorkbook>
+                    </xml>
+                    <![endif]-->
+                    <style>
+                        table { border-collapse: collapse; width: 100%; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; font-weight: bold; }
+                        .center { text-align: center; }
+                        .title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+                        .subtitle { font-size: 14px; margin-bottom: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="title center">LAPORAN DATA BIMBINGAN KONSELING</div>
+                    <div class="subtitle center">SD NEGERI 40 PONTIANAK UTARA</div>
+                    <div class="subtitle center">Tanggal Export: ${new Date().toLocaleDateString('id-ID')}</div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Tanggal</th>
+                                <th>Nama Siswa</th>
+                                <th>Kelas</th>
+                                <th>Nama Konselor</th>
+                                <th>Jabatan Konselor</th>
+                                <th>Jenis Pelanggaran</th>
+                                <th>Detail Pelanggaran</th>
+                                <th>Jenis Bimbingan</th>
+                                <th>Solusi/Tindakan</th>
+                                <th>Jumlah Foto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            currentData.forEach((row, index) => {
+                excelContent += `
+                    <tr>
+                        <td class="center">${index + 1}</td>
+                        <td>${formatDate(row.tanggal)}</td>
+                        <td>${row.namaSiswa || ''}</td>
+                        <td class="center">${row.kelas || ''}</td>
+                        <td>${row.namaKonselor || ''}</td>
+                        <td>${row.jabatan || ''}</td>
+                        <td>${row.pelanggaran || ''}</td>
+                        <td>${(row.detailPelanggaran || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>
+                        <td>${row.bimbingan || ''}</td>
+                        <td>${(row.solusi || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>
+                        <td class="center">${row.foto ? row.foto.length : 0}</td>
+                    </tr>
+                `;
+            });
+
+            excelContent += `
+                        </tbody>
+                    </table>
+                    
+                    <div style="margin-top: 30px; font-size: 12px; color: #666;">
+                        <p>Total Data: ${currentData.length} record</p>
+                        <p>Generated by: Sistem Bimbingan Konseling Digital</p>
+                        <p>Export Time: ${new Date().toLocaleString('id-ID')}</p>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob([excelContent], { 
+                type: 'application/vnd.ms-excel' 
+            });
+            
+            const timestamp = new Date().toISOString().slice(0, 10);
+            downloadFile(blob, `Data_Bimbingan_Konseling_${timestamp}.xls`);
+            showNotification('Export Excel berhasil! (Format XLS)');
+        }
+
+        // Modal management
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Add click outside to close
+            modal.onclick = (e) => {
+                if (e.target === modal) closeModal(modalId);
+            };
+        }
+
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeModal(modalId) {
+            hideModal(modalId);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modals = ['detailModal', 'deleteModal', 'successModal', 'errorModal'];
+                modals.forEach(modalId => {
+                    if (document.getElementById(modalId).style.display === 'flex') {
+                        closeModal(modalId);
+                    }
+                });
+            }
+        });
+
+        // Auto-refresh every 5 minutes
+        setInterval(() => {
+            loadData();
+        }, 300000);
+    </script>
+</body>
+</html>
