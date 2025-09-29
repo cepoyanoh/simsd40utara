@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SD Negeri 40 Kec. Pontianak Utara</title>
+    <title>Sistem Login - Sekolah</title>
     <style>
         * {
             margin: 0;
@@ -319,7 +319,6 @@
                 <div class="logo"></div>
                 <h1>Portal Login</h1>
                 <p class="subtitle">Sistem Informasi Sekolah</p>
-                <p class="subtitle">SD Negeri 40 Kecamatan Pontianak Utara</p>
             </div>
 
             <form id="loginFormElement">
@@ -572,7 +571,7 @@
             if (user.role.toLowerCase() === 'siswa') {
                 showMessage('Login berhasil! Mengarahkan ke dashboard siswa...', 'success');
                 setTimeout(() => {
-                    window.location.href = 'https://sd40utara.pages.dev';
+                    window.location.href = 'student.html';
                 }, 1500);
                 return;
             }
@@ -643,6 +642,4 @@
         }, 30000);
     </script>
 </body>
-
 </html>
-
