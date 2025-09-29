@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamPro - Teacher Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0a0a0a',
+                        foreground: '#ffffff',
+                        card: '#1a1a1a',
+                        primary: '#8b5cf6',
+                        accent: '#10b981',
+                        muted: '#262626',
+                        border: '#404040'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-foreground min-h-screen">
+     Header 
+    <header class="border-b border-border bg-card">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">EP</span>
+                    </div>
+                    <h1 class="text-xl font-bold text-balance">ExamPro Teacher</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-muted-foreground">Dashboard Guru</span>
+                    <div class="w-8 h-8 bg-muted rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+         Stats Cards 
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-muted-foreground">Total Soal</p>
+                        <p class="text-2xl font-bold" id="totalQuestions">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
+                        <span class="text-primary text-xl">📝</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-muted-foreground">Mata Pelajaran</p>
+                        <p class="text-2xl font-bold" id="totalSubjects">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
+                        <span class="text-accent text-xl">📚</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-muted-foreground">Siswa Aktif</p>
+                        <p class="text-2xl font-bold" id="activeStudents">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
+                        <span class="text-accent text-xl">👥</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-muted-foreground">Ujian Selesai</p>
+                        <p class="text-2xl font-bold" id="completedExams">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                        <span class="text-foreground text-xl">✅</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         Add Question Form 
+        <div class="bg-card border border-border rounded-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-6 text-balance">Tambah Soal Baru</h2>
+            
+            <form id="questionForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Mata Pelajaran</label>
+                    <div class="flex space-x-2">
+                        <select 
+                            id="subjectSelect" 
+                            class="flex-1 px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            required
+                        >
+                            <option value="">Pilih mata pelajaran</option>
+                        </select>
+                        <button 
+                            type="button" 
+                            onclick="showAddSubjectModal()" 
+                            class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                        >
+                            + Tambah
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Pertanyaan</label>
+                    <textarea 
+                        id="question" 
+                        rows="3" 
+                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                        placeholder="Masukkan pertanyaan ujian..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Jumlah Pilihan</label>
+                    <select 
+                        id="optionCount" 
+                        onchange="toggleOptionFields()"
+                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        required
+                    >
+                        <option value="4">4 Pilihan (A, B, C, D)</option>
+                        <option value="5">5 Pilihan (A, B, C, D, E)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Pilihan A</label>
+                        <input 
+                            type="text" 
+                            id="optionA" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Pilihan A"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Pilihan B</label>
+                        <input 
+                            type="text" 
+                            id="optionB" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Pilihan B"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Pilihan C</label>
+                        <input 
+                            type="text" 
+                            id="optionC" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Pilihan C"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Pilihan D</label>
+                        <input 
+                            type="text" 
+                            id="optionD" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Pilihan D"
+                            required
+                        >
+                    </div>
+                    <div id="optionEContainer" class="hidden">
+                        <label class="block text-sm font-medium mb-2">Pilihan E</label>
+                        <input 
+                            type="text" 
+                            id="optionE" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Pilihan E"
+                        >
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Jawaban Benar</label>
+                    <select 
+                        id="correctAnswer" 
+                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        required
+                    >
+                        <option value="">Pilih jawaban yang benar</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E" id="optionEAnswer" class="hidden">E</option>
+                    </select>
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                >
+                    Tambah Soal
+                </button>
+            </form>
+        </div>
+
+         Questions List 
+        <div class="bg-card border border-border rounded-lg p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-balance">Daftar Soal</h2>
+                <div class="flex space-x-2">
+                    <select 
+                        id="subjectFilter" 
+                        onchange="filterQuestionsBySubject()" 
+                        class="px-3 py-2 bg-muted border border-border rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                    >
+                        <option value="">Semua Mata Pelajaran</option>
+                    </select>
+                    <button 
+                        onclick="loadQuestions()" 
+                        class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                    >
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div id="questionsList" class="space-y-4">
+                <div class="text-center text-muted-foreground py-8">
+                    <p>Belum ada soal. Tambahkan soal pertama Anda!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+     Added modal for adding new subject 
+    <div id="addSubjectModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-card border border-border rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 class="text-lg font-semibold mb-4">Tambah Mata Pelajaran Baru</h3>
+            <form id="addSubjectForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Nama Mata Pelajaran</label>
+                    <input 
+                        type="text" 
+                        id="newSubjectName" 
+                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Contoh: Matematika, Bahasa Indonesia, dll."
+                        required
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Waktu Pengerjaan (menit)</label>
+                    <input 
+                        type="number" 
+                        id="examDuration" 
+                        min="1" 
+                        max="300" 
+                        value="60"
+                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Masukkan waktu dalam menit"
+                        required
+                    >
+                    <p class="text-xs text-muted-foreground mt-1">Waktu yang diberikan untuk siswa mengerjakan ujian (1-300 menit)</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button 
+                        type="button" 
+                        onclick="hideAddSubjectModal()" 
+                        class="flex-1 bg-muted hover:bg-muted/80 text-foreground py-2 px-4 rounded-lg transition-colors"
+                    >
+                        Batal
+                    </button>
+                    <button 
+                        type="submit" 
+                        class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded-lg transition-colors"
+                    >
+                        Tambah
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Google Apps Script Web App URL - Ganti dengan URL Anda
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-tEuzqcp8qZyvRMFh6RpFbXIxDwHD4CSJF-sMOhRWIAsBzJSaET65mzSvrxJP1DIwTw/exec';
+
+        let allQuestions = [];
+        let subjects = [];
+
+        function toggleOptionFields() {
+            const optionCount = document.getElementById('optionCount').value;
+            const optionEContainer = document.getElementById('optionEContainer');
+            const optionEAnswer = document.getElementById('optionEAnswer');
+            const optionEInput = document.getElementById('optionE');
+            
+            if (optionCount === '5') {
+                optionEContainer.classList.remove('hidden');
+                optionEAnswer.classList.remove('hidden');
+                optionEInput.required = true;
+            } else {
+                optionEContainer.classList.add('hidden');
+                optionEAnswer.classList.add('hidden');
+                optionEInput.required = false;
+                optionEInput.value = '';
+                // Reset correct answer if it was E
+                const correctAnswer = document.getElementById('correctAnswer');
+                if (correctAnswer.value === 'E') {
+                    correctAnswer.value = '';
+                }
+            }
+        }
+
+        // Load questions on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSubjects();
+            loadQuestions();
+            loadStats();
+        });
+
+        function loadSubjects() {
+            fetch(SCRIPT_URL + '?action=getSubjects')
+            .then(response => response.json())
+            .then(data => {
+                subjects = data.subjects || [];
+                updateSubjectSelects();
+            })
+            .catch(error => {
+                console.error('Error loading subjects:', error);
+            });
+        }
+
+        function updateSubjectSelects() {
+            const subjectSelect = document.getElementById('subjectSelect');
+            const subjectFilter = document.getElementById('subjectFilter');
+            
+            // Clear existing options (except first)
+            subjectSelect.innerHTML = '<option value="">Pilih mata pelajaran</option>';
+            subjectFilter.innerHTML = '<option value="">Semua Mata Pelajaran</option>';
+            
+            subjects.forEach(subject => {
+                subjectSelect.innerHTML += `<option value="${subject.name}">${subject.name}</option>`;
+                subjectFilter.innerHTML += `<option value="${subject.name}">${subject.name}</option>`;
+            });
+        }
+
+        function showAddSubjectModal() {
+            document.getElementById('addSubjectModal').classList.remove('hidden');
+        }
+
+        function hideAddSubjectModal() {
+            document.getElementById('addSubjectModal').classList.add('hidden');
+            document.getElementById('newSubjectName').value = '';
+            document.getElementById('examDuration').value = '60';
+        }
+
+        // Add subject form submission
+        document.getElementById('addSubjectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const subjectName = document.getElementById('newSubjectName').value.trim();
+            const duration = parseInt(document.getElementById('examDuration').value);
+            
+            if (subjects.some(subject => subject.name === subjectName)) {
+                alert('Mata pelajaran sudah ada!');
+                return;
+            }
+            
+            if (duration < 1 || duration > 300) {
+                alert('Waktu pengerjaan harus antara 1-300 menit!');
+                return;
+            }
+            
+            const formData = {
+                action: 'addSubject',
+                subjectName: subjectName,
+                duration: duration
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    subjects.push({ name: subjectName, duration: duration });
+                    updateSubjectSelects();
+                    hideAddSubjectModal();
+                    loadStats();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menambahkan mata pelajaran');
+            });
+        });
+
+        // Submit question form
+        document.getElementById('questionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const optionCount = document.getElementById('optionCount').value;
+            
+            const formData = {
+                action: 'addQuestion',
+                subject: document.getElementById('subjectSelect').value,
+                question: document.getElementById('question').value,
+                optionA: document.getElementById('optionA').value,
+                optionB: document.getElementById('optionB').value,
+                optionC: document.getElementById('optionC').value,
+                optionD: document.getElementById('optionD').value,
+                optionE: optionCount === '5' ? document.getElementById('optionE').value : '',
+                optionCount: optionCount,
+                correctAnswer: document.getElementById('correctAnswer').value
+            };
+
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Menambahkan...';
+            submitBtn.disabled = true;
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Soal berhasil ditambahkan!');
+                    document.getElementById('questionForm').reset();
+                    document.getElementById('optionCount').value = '4';
+                    toggleOptionFields();
+                    loadQuestions();
+                    loadStats();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menambahkan soal');
+            })
+            .finally(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        // Load questions from Google Sheets
+        function loadQuestions() {
+            fetch(SCRIPT_URL + '?action=getQuestions')
+            .then(response => response.json())
+            .then(data => {
+                allQuestions = data.questions || [];
+                displayQuestions(allQuestions);
+            })
+            .catch(error => {
+                console.error('Error loading questions:', error);
+            });
+        }
+
+        function filterQuestionsBySubject() {
+            const selectedSubject = document.getElementById('subjectFilter').value;
+            
+            if (selectedSubject === '') {
+                displayQuestions(allQuestions);
+            } else {
+                const filteredQuestions = allQuestions.filter(q => q.subject === selectedSubject);
+                displayQuestions(filteredQuestions);
+            }
+        }
+
+        function displayQuestions(questions) {
+            const questionsList = document.getElementById('questionsList');
+            
+            if (questions && questions.length > 0) {
+                questionsList.innerHTML = questions.map((q, index) => {
+                    const optionCount = q.optionCount || 4;
+                    let optionsHtml = `
+                        <div class="flex items-center space-x-2">
+                            <span class="w-6 h-6 rounded-full ${q.correctAnswer === 'A' ? 'bg-accent' : 'bg-muted'} flex items-center justify-center text-xs font-medium">A</span>
+                            <span class="text-pretty">${q.optionA}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-6 h-6 rounded-full ${q.correctAnswer === 'B' ? 'bg-accent' : 'bg-muted'} flex items-center justify-center text-xs font-medium">B</span>
+                            <span class="text-pretty">${q.optionB}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-6 h-6 rounded-full ${q.correctAnswer === 'C' ? 'bg-accent' : 'bg-muted'} flex items-center justify-center text-xs font-medium">C</span>
+                            <span class="text-pretty">${q.optionC}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-6 h-6 rounded-full ${q.correctAnswer === 'D' ? 'bg-accent' : 'bg-muted'} flex items-center justify-center text-xs font-medium">D</span>
+                            <span class="text-pretty">${q.optionD}</span>
+                        </div>
+                    `;
+                    
+                    if (optionCount == 5 && q.optionE) {
+                        optionsHtml += `
+                            <div class="flex items-center space-x-2">
+                                <span class="w-6 h-6 rounded-full ${q.correctAnswer === 'E' ? 'bg-accent' : 'bg-muted'} flex items-center justify-center text-xs font-medium">E</span>
+                                <span class="text-pretty">${q.optionE}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    return `
+                        <div class="border border-border rounded-lg p-4">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h3 class="font-medium text-balance">Soal ${index + 1}</h3>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span class="inline-block bg-primary/20 text-primary px-2 py-1 rounded text-xs font-medium">
+                                            ${q.subject || 'Tanpa Kategori'}
+                                        </span>
+                                        <span class="inline-block bg-accent/20 text-accent px-2 py-1 rounded text-xs font-medium">
+                                            ${optionCount} Pilihan
+                                        </span>
+                                    </div>
+                                </div>
+                                <button 
+                                    onclick="deleteQuestion(${q.id})" 
+                                    class="text-red-400 hover:text-red-300 text-sm"
+                                >
+                                    Hapus
+                                </button>
+                            </div>
+                            <p class="text-sm text-muted-foreground mb-3 text-pretty">${q.question}</p>
+                            <div class="grid grid-cols-1 gap-2 text-sm">
+                                ${optionsHtml}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                questionsList.innerHTML = `
+                    <div class="text-center text-muted-foreground py-8">
+                        <p>Belum ada soal. Tambahkan soal pertama Anda!</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load statistics
+        function loadStats() {
+            fetch(SCRIPT_URL + '?action=getStats')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('totalQuestions').textContent = data.totalQuestions || 0;
+                document.getElementById('totalSubjects').textContent = data.totalSubjects || 0;
+                document.getElementById('activeStudents').textContent = data.activeStudents || 0;
+                document.getElementById('completedExams').textContent = data.completedExams || 0;
+            })
+            .catch(error => {
+                console.error('Error loading stats:', error);
+            });
+        }
+
+        // Delete question
+        function deleteQuestion(questionId) {
+            if (confirm('Apakah Anda yakin ingin menghapus soal ini?')) {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'deleteQuestion',
+                        questionId: questionId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        loadQuestions();
+                        loadStats();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus soal');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

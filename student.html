@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamPro - Student Exam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0a0a0a',
+                        foreground: '#ffffff',
+                        card: '#1a1a1a',
+                        primary: '#8b5cf6',
+                        accent: '#10b981',
+                        muted: '#262626',
+                        border: '#404040'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-foreground min-h-screen">
+     Header 
+    <header class="border-b border-border bg-card">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">EP</span>
+                    </div>
+                    <h1 class="text-xl font-bold text-balance">ExamPro Student</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div id="timer" class="bg-accent/20 text-accent px-3 py-1 rounded-lg text-sm font-medium">
+                        00:00
+                    </div>
+                    <span class="text-sm text-muted-foreground" id="studentName">Siswa</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+         Student Info Form 
+        <div id="studentInfoSection" class="max-w-md mx-auto bg-card border border-border rounded-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-6 text-center text-balance">Informasi Siswa</h2>
+            
+            <form id="studentInfoForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Nama Lengkap</label>
+                    <input 
+                        type="text" 
+                        id="studentNameInput" 
+                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Masukkan nama lengkap"
+                        required
+                    >
+                </div>
+                
+                <div>
+  <label for="studentClass" class="block text-sm font-medium mb-2">Kelas</label>
+  <select 
+    id="studentClass" 
+    name="studentClass" 
+    class="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    required
+  >
+    <option value="">Pilih Kelas</option>
+    <option value="1A">1</option>
+   
+    <option value="2A">2A</option>
+    <option value="2B">2B</option>
+    <option value="3A">3A</option>
+    <option value="3B">3B</option>
+    <option value="4A">4A</option>
+    <option value="4B">4B</option>
+    <option value="5A">5A</option>
+    <option value="5B">5B</option>
+    <option value="6A">6A</option>
+    <option value="6B">6B</option>
+  </select>
+</div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Mata Pelajaran</label>
+                    <select 
+                        id="subjectSelect" 
+                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        required
+                        onchange="updateExamInfo()"
+                    >
+                        <option value="">Pilih mata pelajaran</option>
+                    </select>
+                    <!-- Added exam duration display -->
+                    <div id="examDurationInfo" class="mt-2 p-2 bg-muted/50 rounded text-sm text-muted-foreground hidden">
+                        <span class="text-accent">⏱️</span> Waktu pengerjaan: <span id="examDurationText">-</span> menit
+                    </div>
+                </div>
+                
+                <button 
+                    type="submit" 
+                    class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                >
+                    Mulai Ujian
+                </button>
+            </form>
+        </div>
+
+         Exam Section 
+        <div id="examSection" class="hidden">
+            <div class="bg-card border border-border rounded-lg p-4 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-semibold text-lg" id="examSubject">Mata Pelajaran</h3>
+                        <p class="text-sm text-muted-foreground">Ujian Online</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-muted-foreground">Total Soal</p>
+                        <p class="font-semibold" id="totalQuestionsCount">0</p>
+                    </div>
+                </div>
+            </div>
+
+             Progress Bar 
+            <div class="bg-card border border-border rounded-lg p-4 mb-6">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium">Progress Ujian</span>
+                    <span class="text-sm text-muted-foreground" id="progressText">0 / 0</span>
+                </div>
+                <div class="w-full bg-muted rounded-full h-2">
+                    <div id="progressBar" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+             Question Card 
+            <div class="bg-card border border-border rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold" id="questionNumber">Soal 1</h2>
+                    <div class="flex space-x-2">
+                        <button 
+                            id="prevBtn" 
+                            onclick="previousQuestion()" 
+                            class="bg-muted hover:bg-muted/80 text-foreground px-3 py-1 rounded text-sm font-medium transition-colors disabled:opacity-50"
+                            disabled
+                        >
+                            Sebelumnya
+                        </button>
+                        <button 
+                            id="nextBtn" 
+                            onclick="nextQuestion()" 
+                            class="bg-primary hover:bg-primary/90 text-white px-3 py-1 rounded text-sm font-medium transition-colors"
+                        >
+                            Selanjutnya
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="questionContent">
+                    <p class="text-lg mb-6 text-pretty" id="questionText">Loading...</p>
+                    
+                    <div class="space-y-3" id="optionsContainer">
+                         Options will be loaded here 
+                    </div>
+                </div>
+            </div>
+
+             Submit Button 
+            <div class="text-center">
+                <button 
+                    id="submitExamBtn" 
+                    onclick="submitExam()" 
+                    class="bg-accent hover:bg-accent/90 text-white font-medium py-3 px-8 rounded-lg transition-colors"
+                >
+                    Selesai Ujian
+                </button>
+            </div>
+        </div>
+
+         Results Section 
+        <div id="resultsSection" class="hidden max-w-2xl mx-auto">
+            <div class="bg-card border border-border rounded-lg p-6 text-center">
+                <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-accent text-2xl">🎉</span>
+                </div>
+                <h2 class="text-2xl font-bold mb-4 text-balance">Ujian Selesai!</h2>
+                <div class="space-y-2 mb-6">
+                    <p class="text-lg">Nama: <span id="finalStudentName" class="font-semibold"></span></p>
+                    <p class="text-lg">Kelas: <span id="finalStudentClass" class="font-semibold"></span></p>
+                    <p class="text-lg">Mata Pelajaran: <span id="finalSubject" class="font-semibold"></span></p>
+                    <p class="text-lg">Skor: <span id="finalScore" class="font-semibold text-accent"></span></p>
+                    <p class="text-sm text-muted-foreground">Waktu Pengerjaan: <span id="finalTime"></span></p>
+                </div>
+                <button 
+                    onclick="location.reload()" 
+                    class="bg-primary hover:bg-primary/90 text-white font-medium py-2 px-6 rounded-lg transition-colors"
+                >
+                    Ujian Baru
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Google Apps Script Web App URL - Ganti dengan URL Anda
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-tEuzqcp8qZyvRMFh6RpFbXIxDwHD4CSJF-sMOhRWIAsBzJSaET65mzSvrxJP1DIwTw/exec';
+
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let studentAnswers = {};
+        let startTime = null;
+        let timerInterval = null;
+        let studentInfo = {};
+        let subjects = [];
+        let examDuration = 60; // Default 60 minutes
+        let timeRemaining = 0;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSubjects();
+        });
+
+        function loadSubjects() {
+            fetch(SCRIPT_URL + '?action=getSubjects')
+            .then(response => response.json())
+            .then(data => {
+                const subjectSelect = document.getElementById('subjectSelect');
+                subjectSelect.innerHTML = '<option value="">Pilih mata pelajaran</option>';
+                
+                if (data.subjects && data.subjects.length > 0) {
+                    subjects = data.subjects;
+                    subjects.forEach(subject => {
+                        const subjectName = typeof subject === 'string' ? subject : subject.name;
+                        subjectSelect.innerHTML += `<option value="${subjectName}">${subjectName}</option>`;
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error loading subjects:', error);
+            });
+        }
+
+        function updateExamInfo() {
+            const selectedSubject = document.getElementById('subjectSelect').value;
+            const examDurationInfo = document.getElementById('examDurationInfo');
+            const examDurationText = document.getElementById('examDurationText');
+            
+            if (selectedSubject) {
+                const subject = subjects.find(s => {
+                    const subjectName = typeof s === 'string' ? s : s.name;
+                    return subjectName === selectedSubject;
+                });
+                
+                if (subject && typeof subject === 'object' && subject.duration) {
+                    examDuration = subject.duration;
+                    examDurationText.textContent = examDuration;
+                    examDurationInfo.classList.remove('hidden');
+                } else {
+                    examDuration = 60; // Default
+                    examDurationText.textContent = examDuration;
+                    examDurationInfo.classList.remove('hidden');
+                }
+            } else {
+                examDurationInfo.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('studentInfoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            studentInfo = {
+                name: document.getElementById('studentNameInput').value,
+                class: document.getElementById('studentClass').value,
+                subject: document.getElementById('subjectSelect').value
+            };
+            
+            document.getElementById('studentName').textContent = studentInfo.name;
+            document.getElementById('examSubject').textContent = studentInfo.subject;
+            document.getElementById('studentInfoSection').classList.add('hidden');
+            document.getElementById('examSection').classList.remove('hidden');
+            
+            loadQuestions();
+            startTimer();
+        });
+
+        function loadQuestions() {
+            const selectedSubject = studentInfo.subject;
+            fetch(SCRIPT_URL + `?action=getQuestions&subject=${encodeURIComponent(selectedSubject)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.questions && data.questions.length > 0) {
+                    questions = data.questions;
+                    document.getElementById('totalQuestionsCount').textContent = questions.length;
+                    displayQuestion();
+                    updateProgress();
+                } else {
+                    alert('Tidak ada soal yang tersedia untuk mata pelajaran ini');
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error loading questions:', error);
+                alert('Terjadi kesalahan saat memuat soal');
+            });
+        }
+
+        function displayQuestion() {
+            if (questions.length === 0) return;
+            
+            const question = questions[currentQuestionIndex];
+            const optionCount = question.optionCount || 4;
+            
+            document.getElementById('questionNumber').textContent = `Soal ${currentQuestionIndex + 1}`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            let optionsHtml = '';
+            
+            const options = [
+                { value: 'A', text: question.optionA },
+                { value: 'B', text: question.optionB },
+                { value: 'C', text: question.optionC },
+                { value: 'D', text: question.optionD }
+            ];
+            
+            if (optionCount == 5 && question.optionE) {
+                options.push({ value: 'E', text: question.optionE });
+            }
+            
+            options.forEach(option => {
+                if (option.text) { // Only show options that have text
+                    optionsHtml += `
+                        <label class="flex items-center space-x-3 p-3 border border-border rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                            <input type="radio" name="answer" value="${option.value}" class="text-primary focus:ring-primary" ${studentAnswers[question.id] === option.value ? 'checked' : ''}>
+                            <span class="text-pretty">${option.value}. ${option.text}</span>
+                        </label>
+                    `;
+                }
+            });
+            
+            optionsContainer.innerHTML = optionsHtml;
+            
+            const radioButtons = optionsContainer.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    studentAnswers[question.id] = this.value;
+                });
+            });
+            
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestionIndex === questions.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                updateProgress();
+            } else {
+                submitExam();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = 
+                `${currentQuestionIndex + 1} / ${questions.length}`;
+        }
+
+        function startTimer() {
+            startTime = new Date();
+            timeRemaining = examDuration * 60; // Convert minutes to seconds
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            timeRemaining--;
+            
+            if (timeRemaining <= 0) {
+                alert('Waktu ujian telah habis!');
+                submitExam();
+                return;
+            }
+            
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const timerElement = document.getElementById('timer');
+            
+            if (timeRemaining <= 300) { // 5 minutes remaining
+                timerElement.className = 'bg-red-500/20 text-red-400 px-3 py-1 rounded-lg text-sm font-medium';
+            } else if (timeRemaining <= 600) { // 10 minutes remaining
+                timerElement.className = 'bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-lg text-sm font-medium';
+            }
+            
+            timerElement.textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        }
+
+        function submitExam() {
+            if (confirm('Apakah Anda yakin ingin menyelesaikan ujian?')) {
+                stopTimer();
+                
+                const endTime = new Date();
+                const totalTime = Math.floor((endTime - startTime) / 1000);
+                
+                let correctAnswers = 0;
+                questions.forEach(question => {
+                    if (studentAnswers[question.id] === question.correctAnswer) {
+                        correctAnswers++;
+                    }
+                });
+                
+                const score = Math.round((correctAnswers / questions.length) * 100);
+                
+                const submissionData = {
+                    action: 'submitExam',
+                    studentName: studentInfo.name,
+                    studentClass: studentInfo.class,
+                    subject: studentInfo.subject,
+                    answers: studentAnswers,
+                    score: score,
+                    totalTime: totalTime,
+                    submittedAt: new Date().toISOString()
+                };
+                
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(submissionData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showResults(score, totalTime);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showResults(score, totalTime);
+                });
+            }
+        }
+
+        function showResults(score, totalTime) {
+            document.getElementById('examSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+            
+            document.getElementById('finalStudentName').textContent = studentInfo.name;
+            document.getElementById('finalStudentClass').textContent = studentInfo.class;
+            document.getElementById('finalSubject').textContent = studentInfo.subject;
+            document.getElementById('finalScore').textContent = score + '%';
+            
+            const minutes = Math.floor(totalTime / 60);
+            const seconds = totalTime % 60;
+            document.getElementById('finalTime').textContent = 
+                `${minutes} menit ${seconds} detik`;
+        }
+    </script>
+</body>
+</html>
