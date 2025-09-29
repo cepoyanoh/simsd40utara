@@ -44,207 +44,319 @@
     </header>
 
     <main class="container mx-auto px-6 py-8">
-         Stats Cards 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-card border border-border rounded-lg p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-muted-foreground">Total Soal</p>
-                        <p class="text-2xl font-bold" id="totalQuestions">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
-                        <span class="text-primary text-xl">📝</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-card border border-border rounded-lg p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-muted-foreground">Mata Pelajaran</p>
-                        <p class="text-2xl font-bold" id="totalSubjects">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
-                        <span class="text-accent text-xl">📚</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-card border border-border rounded-lg p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-muted-foreground">Siswa Aktif</p>
-                        <p class="text-2xl font-bold" id="activeStudents">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
-                        <span class="text-accent text-xl">👥</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-card border border-border rounded-lg p-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm text-muted-foreground">Ujian Selesai</p>
-                        <p class="text-2xl font-bold" id="completedExams">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
-                        <span class="text-foreground text-xl">✅</span>
-                    </div>
-                </div>
+         Added navigation tabs for different sections 
+        <div class="mb-8">
+            <div class="flex space-x-1 bg-muted rounded-lg p-1">
+                <button 
+                    id="dashboardTab" 
+                    onclick="showTab('dashboard')" 
+                    class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors bg-primary text-white"
+                >
+                    Dashboard
+                </button>
+                <button 
+                    id="gradesTab" 
+                    onclick="showTab('grades')" 
+                    class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:text-foreground"
+                >
+                    Nilai Siswa
+                </button>
             </div>
         </div>
 
-         Add Question Form 
-        <div class="bg-card border border-border rounded-lg p-6 mb-8">
-            <h2 class="text-xl font-semibold mb-6 text-balance">Tambah Soal Baru</h2>
-            
-            <form id="questionForm" class="space-y-6">
-                <div>
-                    <label class="block text-sm font-medium mb-2">Mata Pelajaran</label>
-                    <div class="flex space-x-2">
+         Dashboard Section 
+        <div id="dashboardSection">
+             Stats Cards 
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-muted-foreground">Total Soal</p>
+                            <p class="text-2xl font-bold" id="totalQuestions">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center">
+                            <span class="text-primary text-xl">📝</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-muted-foreground">Mata Pelajaran</p>
+                            <p class="text-2xl font-bold" id="totalSubjects">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
+                            <span class="text-accent text-xl">📚</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-muted-foreground">Siswa Aktif</p>
+                            <p class="text-2xl font-bold" id="activeStudents">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
+                            <span class="text-accent text-xl">👥</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-card border border-border rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-muted-foreground">Ujian Selesai</p>
+                            <p class="text-2xl font-bold" id="completedExams">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                            <span class="text-foreground text-xl">✅</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             Add Question Form 
+            <div class="bg-card border border-border rounded-lg p-6 mb-8">
+                <h2 class="text-xl font-semibold mb-6 text-balance">Tambah Soal Baru</h2>
+                
+                <form id="questionForm" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Mata Pelajaran</label>
+                        <div class="flex space-x-2">
+                            <select 
+                                id="subjectSelect" 
+                                class="flex-1 px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                required
+                            >
+                                <option value="">Pilih mata pelajaran</option>
+                            </select>
+                            <button 
+                                type="button" 
+                                onclick="showAddSubjectModal()" 
+                                class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                            >
+                                + Tambah
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Pertanyaan</label>
+                        <textarea 
+                            id="question" 
+                            rows="3" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                            placeholder="Masukkan pertanyaan ujian..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Jumlah Pilihan</label>
                         <select 
-                            id="subjectSelect" 
-                            class="flex-1 px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            id="optionCount" 
+                            onchange="toggleOptionFields()"
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                             required
                         >
-                            <option value="">Pilih mata pelajaran</option>
+                            <option value="4">4 Pilihan (A, B, C, D)</option>
+                            <option value="5">5 Pilihan (A, B, C, D, E)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Pilihan A</label>
+                            <input 
+                                type="text" 
+                                id="optionA" 
+                                class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="Pilihan A"
+                                required
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Pilihan B</label>
+                            <input 
+                                type="text" 
+                                id="optionB" 
+                                class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="Pilihan B"
+                                required
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Pilihan C</label>
+                            <input 
+                                type="text" 
+                                id="optionC" 
+                                class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="Pilihan C"
+                                required
+                            >
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Pilihan D</label>
+                            <input 
+                                type="text" 
+                                id="optionD" 
+                                class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="Pilihan D"
+                                required
+                            >
+                        </div>
+                        <div id="optionEContainer" class="hidden">
+                            <label class="block text-sm font-medium mb-2">Pilihan E</label>
+                            <input 
+                                type="text" 
+                                id="optionE" 
+                                class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="Pilihan E"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Jawaban Benar</label>
+                        <select 
+                            id="correctAnswer" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            required
+                        >
+                            <option value="">Pilih jawaban yang benar</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E" id="optionEAnswer" class="hidden">E</option>
+                        </select>
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                    >
+                        Tambah Soal
+                    </button>
+                </form>
+            </div>
+
+             Questions List 
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-balance">Daftar Soal</h2>
+                    <div class="flex space-x-2">
+                        <select 
+                            id="subjectFilter" 
+                            onchange="filterQuestionsBySubject()" 
+                            class="px-3 py-2 bg-muted border border-border rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                        >
+                            <option value="">Semua Mata Pelajaran</option>
                         </select>
                         <button 
-                            type="button" 
-                            onclick="showAddSubjectModal()" 
+                            onclick="loadQuestions()" 
                             class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                         >
-                            + Tambah
+                            Refresh
                         </button>
                     </div>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium mb-2">Pertanyaan</label>
-                    <textarea 
-                        id="question" 
-                        rows="3" 
-                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                        placeholder="Masukkan pertanyaan ujian..."
-                        required
-                    ></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium mb-2">Jumlah Pilihan</label>
-                    <select 
-                        id="optionCount" 
-                        onchange="toggleOptionFields()"
-                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                        required
-                    >
-                        <option value="4">4 Pilihan (A, B, C, D)</option>
-                        <option value="5">5 Pilihan (A, B, C, D, E)</option>
-                    </select>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Pilihan A</label>
-                        <input 
-                            type="text" 
-                            id="optionA" 
-                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Pilihan A"
-                            required
-                        >
+                
+                <div id="questionsList" class="space-y-4">
+                    <div class="text-center text-muted-foreground py-8">
+                        <p>Belum ada soal. Tambahkan soal pertama Anda!</p>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Pilihan B</label>
-                        <input 
-                            type="text" 
-                            id="optionB" 
-                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Pilihan B"
-                            required
-                        >
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Pilihan C</label>
-                        <input 
-                            type="text" 
-                            id="optionC" 
-                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Pilihan C"
-                            required
-                        >
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Pilihan D</label>
-                        <input 
-                            type="text" 
-                            id="optionD" 
-                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Pilihan D"
-                            required
-                        >
-                    </div>
-                    <div id="optionEContainer" class="hidden">
-                        <label class="block text-sm font-medium mb-2">Pilihan E</label>
-                        <input 
-                            type="text" 
-                            id="optionE" 
-                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="Pilihan E"
-                        >
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium mb-2">Jawaban Benar</label>
-                    <select 
-                        id="correctAnswer" 
-                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                        required
-                    >
-                        <option value="">Pilih jawaban yang benar</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                        <option value="E" id="optionEAnswer" class="hidden">E</option>
-                    </select>
-                </div>
-
-                <button 
-                    type="submit" 
-                    class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg transition-colors"
-                >
-                    Tambah Soal
-                </button>
-            </form>
-        </div>
-
-         Questions List 
-        <div class="bg-card border border-border rounded-lg p-6">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-semibold text-balance">Daftar Soal</h2>
-                <div class="flex space-x-2">
-                    <select 
-                        id="subjectFilter" 
-                        onchange="filterQuestionsBySubject()" 
-                        class="px-3 py-2 bg-muted border border-border rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
-                    >
-                        <option value="">Semua Mata Pelajaran</option>
-                    </select>
-                    <button 
-                        onclick="loadQuestions()" 
-                        class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                    >
-                        Refresh
-                    </button>
                 </div>
             </div>
-            
-            <div id="questionsList" class="space-y-4">
-                <div class="text-center text-muted-foreground py-8">
-                    <p>Belum ada soal. Tambahkan soal pertama Anda!</p>
+        </div>
+
+         Grades Section 
+        <div id="gradesSection" class="hidden">
+             Filter Controls 
+            <div class="bg-card border border-border rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-semibold mb-4 text-balance">Filter Nilai</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Mata Pelajaran</label>
+                        <select 
+                            id="gradesSubjectFilter" 
+                            onchange="filterGrades()" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        >
+                            <option value="">Semua Mata Pelajaran</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Kelas</label>
+                        <select 
+                            id="gradesClassFilter" 
+                            onchange="filterGrades()" 
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        >
+                            <option value="">Semua Kelas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Nama Siswa</label>
+                        <input 
+                            type="text" 
+                            id="gradesNameFilter" 
+                            onkeyup="filterGrades()" 
+                            placeholder="Cari nama siswa..."
+                            class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        >
+                    </div>
+                    <div class="flex items-end">
+                        <button 
+                            onclick="downloadExcel()" 
+                            class="w-full bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center space-x-2"
+                        >
+                            <span>📊</span>
+                            <span>Download Excel</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+             Grades Table 
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-balance">Daftar Nilai Siswa</h2>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-muted-foreground">Total: </span>
+                        <span id="totalGradesCount" class="text-sm font-medium">0</span>
+                        <button 
+                            onclick="loadGrades()" 
+                            class="bg-primary hover:bg-primary/90 text-white px-3 py-1 rounded text-sm font-medium transition-colors ml-4"
+                        >
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-border">
+                                <th class="text-left py-3 px-2 text-sm font-medium text-muted-foreground">No</th>
+                                <th class="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Nama</th>
+                                <th class="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Kelas</th>
+                                <th class="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Mata Pelajaran</th>
+                                <th class="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Nilai</th>
+                                <th class="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Waktu</th>
+                                <th class="text-left py-3 px-2 text-sm font-medium text-muted-foreground">Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradesTableBody">
+                            <tr>
+                                <td colspan="7" class="text-center py-8 text-muted-foreground">
+                                    Belum ada data nilai. Siswa belum mengerjakan ujian.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -300,10 +412,32 @@
 
     <script>
         // Google Apps Script Web App URL - Ganti dengan URL Anda
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-tEuzqcp8qZyvRMFh6RpFbXIxDwHD4CSJF-sMOhRWIAsBzJSaET65mzSvrxJP1DIwTw/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzvy1_Zid98gSujrJKMMoNigCWVyp-a8IwazAVoLwKXtV-zuOLwa7DhyF0tpYuzBeAf0A/exec';
 
         let allQuestions = [];
         let subjects = [];
+        let allGrades = [];
+        let filteredGrades = [];
+
+        function showTab(tabName) {
+            // Hide all sections
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('gradesSection').classList.add('hidden');
+            
+            // Remove active class from all tabs
+            document.getElementById('dashboardTab').className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:text-foreground';
+            document.getElementById('gradesTab').className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:text-foreground';
+            
+            // Show selected section and activate tab
+            if (tabName === 'dashboard') {
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                document.getElementById('dashboardTab').className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors bg-primary text-white';
+            } else if (tabName === 'grades') {
+                document.getElementById('gradesSection').classList.remove('hidden');
+                document.getElementById('gradesTab').className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors bg-primary text-white';
+                loadGrades(); // Load grades when switching to grades tab
+            }
+        }
 
         function toggleOptionFields() {
             const optionCount = document.getElementById('optionCount').value;
@@ -333,6 +467,7 @@
             loadSubjects();
             loadQuestions();
             loadStats();
+            loadGrades();
         });
 
         function loadSubjects() {
@@ -601,6 +736,145 @@
                     alert('Terjadi kesalahan saat menghapus soal');
                 });
             }
+        }
+
+        function loadGrades() {
+            fetch(SCRIPT_URL + '?action=getGrades')
+            .then(response => response.json())
+            .then(data => {
+                allGrades = data.grades || [];
+                filteredGrades = [...allGrades];
+                displayGrades();
+                updateGradeFilters();
+            })
+            .catch(error => {
+                console.error('Error loading grades:', error);
+            });
+        }
+
+        function updateGradeFilters() {
+            const subjectFilter = document.getElementById('gradesSubjectFilter');
+            const classFilter = document.getElementById('gradesClassFilter');
+            
+            // Get unique subjects and classes
+            const uniqueSubjects = [...new Set(allGrades.map(g => g.subject))];
+            const uniqueClasses = [...new Set(allGrades.map(g => g.class))];
+            
+            // Update subject filter
+            subjectFilter.innerHTML = '<option value="">Semua Mata Pelajaran</option>';
+            uniqueSubjects.forEach(subject => {
+                subjectFilter.innerHTML += `<option value="${subject}">${subject}</option>`;
+            });
+            
+            // Update class filter
+            classFilter.innerHTML = '<option value="">Semua Kelas</option>';
+            uniqueClasses.forEach(className => {
+                classFilter.innerHTML += `<option value="${className}">${className}</option>`;
+            });
+        }
+
+        function filterGrades() {
+            const subjectFilter = document.getElementById('gradesSubjectFilter').value;
+            const classFilter = document.getElementById('gradesClassFilter').value;
+            const nameFilter = document.getElementById('gradesNameFilter').value.toLowerCase();
+            
+            filteredGrades = allGrades.filter(grade => {
+                const matchSubject = !subjectFilter || grade.subject === subjectFilter;
+                const matchClass = !classFilter || grade.class === classFilter;
+                const matchName = !nameFilter || grade.studentName.toLowerCase().includes(nameFilter);
+                
+                return matchSubject && matchClass && matchName;
+            });
+            
+            displayGrades();
+        }
+
+        function displayGrades() {
+            const tableBody = document.getElementById('gradesTableBody');
+            const totalCount = document.getElementById('totalGradesCount');
+            
+            totalCount.textContent = filteredGrades.length;
+            
+            if (filteredGrades.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-8 text-muted-foreground">
+                            ${allGrades.length === 0 ? 'Belum ada data nilai. Siswa belum mengerjakan ujian.' : 'Tidak ada data yang sesuai dengan filter.'}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Sort by date (newest first)
+            filteredGrades.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            tableBody.innerHTML = filteredGrades.map((grade, index) => {
+                const date = new Date(grade.timestamp);
+                const formattedDate = date.toLocaleDateString('id-ID');
+                const formattedTime = Math.floor(grade.totalTime / 60) + 'm ' + (grade.totalTime % 60) + 's';
+                
+                // Color code for scores
+                let scoreClass = 'text-foreground';
+                if (grade.score >= 80) scoreClass = 'text-accent';
+                else if (grade.score >= 60) scoreClass = 'text-yellow-400';
+                else scoreClass = 'text-red-400';
+                
+                return `
+                    <tr class="border-b border-border/50 hover:bg-muted/30">
+                        <td class="py-3 px-2 text-sm">${index + 1}</td>
+                        <td class="py-3 px-2 text-sm font-medium">${grade.studentName}</td>
+                        <td class="py-3 px-2 text-sm">${grade.class}</td>
+                        <td class="py-3 px-2 text-sm">
+                            <span class="inline-block bg-primary/20 text-primary px-2 py-1 rounded text-xs">
+                                ${grade.subject}
+                            </span>
+                        </td>
+                        <td class="py-3 px-2 text-sm font-bold ${scoreClass}">${grade.score}%</td>
+                        <td class="py-3 px-2 text-sm text-muted-foreground">${formattedTime}</td>
+                        <td class="py-3 px-2 text-sm text-muted-foreground">${formattedDate}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function downloadExcel() {
+            if (filteredGrades.length === 0) {
+                alert('Tidak ada data untuk didownload');
+                return;
+            }
+            
+            // Create CSV content
+            const headers = ['No', 'Nama', 'Kelas', 'Mata Pelajaran', 'Nilai (%)', 'Waktu Pengerjaan', 'Tanggal'];
+            let csvContent = headers.join(',') + '\n';
+            
+            filteredGrades.forEach((grade, index) => {
+                const date = new Date(grade.timestamp);
+                const formattedDate = date.toLocaleDateString('id-ID');
+                const formattedTime = Math.floor(grade.totalTime / 60) + 'm ' + (grade.totalTime % 60) + 's';
+                
+                const row = [
+                    index + 1,
+                    `"${grade.studentName}"`,
+                    `"${grade.class}"`,
+                    `"${grade.subject}"`,
+                    grade.score,
+                    `"${formattedTime}"`,
+                    `"${formattedDate}"`
+                ];
+                csvContent += row.join(',') + '\n';
+            });
+            
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `nilai_siswa_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
