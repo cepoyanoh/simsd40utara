@@ -739,16 +739,30 @@
         }
 
         function loadGrades() {
+            console.log("[v0] Loading grades from server...");
             fetch(SCRIPT_URL + '?action=getGrades')
-            .then(response => response.json())
+            .then(response => {
+                console.log("[v0] Grades response received:", response.status);
+                return response.json();
+            })
             .then(data => {
+                console.log("[v0] Grades data received:", data);
                 allGrades = data.grades || [];
                 filteredGrades = [...allGrades];
+                console.log("[v0] Total grades loaded:", allGrades.length);
                 displayGrades();
                 updateGradeFilters();
             })
             .catch(error => {
-                console.error('Error loading grades:', error);
+                console.error('[v0] Error loading grades:', error);
+                const tableBody = document.getElementById('gradesTableBody');
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-8 text-red-400">
+                            Error loading grades: ${error.message}
+                        </td>
+                    </tr>
+                `;
             });
         }
 
@@ -790,12 +804,14 @@
         }
 
         function displayGrades() {
+            console.log("[v0] Displaying grades, filtered count:", filteredGrades.length);
             const tableBody = document.getElementById('gradesTableBody');
             const totalCount = document.getElementById('totalGradesCount');
             
             totalCount.textContent = filteredGrades.length;
             
             if (filteredGrades.length === 0) {
+                console.log("[v0] No grades to display, all grades count:", allGrades.length);
                 tableBody.innerHTML = `
                     <tr>
                         <td colspan="7" class="text-center py-8 text-muted-foreground">
@@ -879,4 +895,3 @@
     </script>
 </body>
 </html>
-
