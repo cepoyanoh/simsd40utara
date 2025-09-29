@@ -63,14 +63,27 @@
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-2">Kelas</label>
-                    <input 
-                        type="text" 
-                        id="studentClass" 
-                        class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="Contoh: XII IPA 1"
-                        required
-                    >
+                   <label for="studentClass" class="block text-sm font-medium mb-2">Kelas</label>
+  <select 
+    id="studentClass" 
+    name="studentClass" 
+    class="w-full px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+    required
+  >
+    <option value="">Pilih Kelas</option>
+    <option value="1A">1A</option>
+    <option value="1B">1B</option>
+    <option value="2A">2A</option>
+    <option value="2B">2B</option>
+    <option value="3A">3A</option>
+    <option value="3B">3B</option>
+    <option value="4A">4A</option>
+    <option value="4B">4B</option>
+    <option value="5A">5A</option>
+    <option value="5B">5B</option>
+    <option value="6A">6A</option>
+    <option value="6B">6B</option>
+  </select>
                 </div>
                 
                 <div>
@@ -472,3 +485,4 @@
     </script>
 </body>
 </html>
+
