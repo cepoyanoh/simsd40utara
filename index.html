@@ -19,18 +19,62 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-100px) rotate(180deg);
+                opacity: 0.6;
+            }
         }
 
         .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            padding: 45px 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 440px;
             position: relative;
             overflow: hidden;
+            z-index: 1;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .login-container::before {
@@ -39,43 +83,72 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: gradientFlow 3s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .logo-section {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.35);
+            animation: logoPulse 3s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { box-shadow: 0 15px 35px rgba(102, 126, 234, 0.35); }
+            50% { box-shadow: 0 15px 45px rgba(102, 126, 234, 0.5); }
         }
 
         .logo::before {
             content: '🎓';
-            font-size: 30px;
+            font-size: 36px;
+            animation: iconBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         h1 {
             color: #333;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .subtitle {
             color: #666;
-            font-size: 16px;
-            margin-bottom: 30px;
+            font-size: 15px;
+            margin-bottom: 0;
+            font-weight: 500;
         }
 
         .form-group {
@@ -87,21 +160,47 @@
             display: block;
             color: #555;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #999;
+            transition: color 0.3s ease;
+            pointer-events: none;
         }
 
         input[type="text"], 
         input[type="password"], 
         select {
             width: 100%;
-            padding: 15px 20px;
+            padding: 16px 20px 16px 50px;
             border: 2px solid #e1e8ed;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #f8f9fa;
             outline: none;
+        }
+
+        select {
+            padding-left: 50px;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 16px center;
+            background-repeat: no-repeat;
+            background-size: 18px;
         }
 
         input[type="text"]:focus, 
@@ -109,47 +208,81 @@
         select:focus {
             border-color: #667eea;
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
             transform: translateY(-2px);
         }
 
-        select {
+        input[type="text"]:focus + .input-icon,
+        input[type="password"]:focus + .input-icon,
+        select:focus + .input-icon {
+            color: #667eea;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
             cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 12px center;
-            background-repeat: no-repeat;
-            background-size: 16px;
+            font-size: 18px;
+            color: #999;
+            transition: color 0.3s ease;
+            padding: 5px;
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
         }
 
         .login-btn {
             width: 100%;
-            padding: 15px;
+            padding: 17px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 14px;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
         }
 
         .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.45);
         }
 
         .login-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .login-btn:disabled {
-            opacity: 0.6;
+            opacity: 0.7;
             cursor: not-allowed;
             transform: none;
         }
@@ -158,11 +291,10 @@
             display: none;
             width: 20px;
             height: 20px;
-            border: 2px solid #ffffff40;
-            border-top: 2px solid #ffffff;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffffff;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
@@ -172,144 +304,276 @@
 
         .message {
             margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 16px;
+            border-radius: 12px;
             font-weight: 500;
             text-align: center;
             display: none;
-            animation: fadeIn 0.5s ease;
+            animation: messageSlide 0.4s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .error {
-            background: rgba(220, 53, 69, 0.1);
-            border: 1px solid rgba(220, 53, 69, 0.3);
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.12), rgba(220, 53, 69, 0.08));
+            border: 2px solid rgba(220, 53, 69, 0.3);
             color: #dc3545;
         }
 
         .success {
-            background: rgba(40, 167, 69, 0.1);
-            border: 1px solid rgba(40, 167, 69, 0.3);
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.12), rgba(40, 167, 69, 0.08));
+            border: 2px solid rgba(40, 167, 69, 0.3);
             color: #28a745;
         }
 
         .dashboard {
             display: none;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
+            animation: slideUp 0.6s ease-out;
         }
 
         .welcome-card {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
+            padding: 35px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .welcome-card h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
         }
 
         .user-info {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 14px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            border: 2px solid #f0f0f0;
+        }
+
+        .user-info h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .user-info p {
+            margin-bottom: 12px;
+            color: #555;
+            font-size: 15px;
         }
 
         .role-badge {
             display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .role-guru {
-            background: #28a745;
+            background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
         }
 
         .role-siswa {
-            background: #17a2b8;
+            background: linear-gradient(135deg, #17a2b8, #138496);
             color: white;
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
         }
 
         .logout-btn {
-            background: #dc3545;
+            width: 100%;
+            background: linear-gradient(135deg, #dc3545, #c82333);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 15px 24px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .logout-btn:hover {
-            background: #c82333;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(220, 53, 69, 0.35);
         }
 
         .connection-status {
             position: fixed;
-            top: 10px;
-            right: 10px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 13px;
             font-weight: 600;
             z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .connection-status:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .status-online {
-            background: #28a745;
+            background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
         }
 
         .status-offline {
-            background: #dc3545;
+            background: linear-gradient(135deg, #dc3545, #c82333);
             color: white;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .status-checking {
-            background: #ffc107;
+            background: linear-gradient(135deg, #ffc107, #ff9800);
             color: #333;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .login-container {
+                padding: 35px 25px;
+                max-width: 100%;
+                border-radius: 20px;
+            }
+
+            .logo {
+                width: 75px;
+                height: 75px;
+            }
+
+            .logo::before {
+                font-size: 30px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            input[type="text"], 
+            input[type="password"], 
+            select {
+                padding: 14px 18px 14px 45px;
+                font-size: 16px;
+            }
+
+            .input-icon {
+                left: 15px;
+                font-size: 16px;
+            }
+
+            .password-toggle {
+                right: 15px;
+            }
+
+            .login-btn {
+                padding: 15px;
+                font-size: 15px;
+            }
+
+            .connection-status {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                text-align: center;
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+
+            .welcome-card {
+                padding: 25px 20px;
+            }
+
+            .welcome-card h2 {
+                font-size: 24px;
+            }
+
+            .user-info {
+                padding: 20px;
+            }
         }
 
         @media (max-width: 480px) {
             .login-container {
                 padding: 30px 20px;
-                margin: 10px;
             }
 
             h1 {
                 font-size: 24px;
             }
 
+            .form-group {
+                margin-bottom: 20px;
+            }
+
             input[type="text"], 
             input[type="password"], 
             select {
-                padding: 12px 16px;
-                font-size: 14px;
+                padding: 13px 16px 13px 42px;
+                font-size: 15px;
+            }
+        }
+
+        /* Touch feedback for mobile */
+        @media (hover: none) {
+            .login-btn:active {
+                transform: scale(0.98);
             }
 
-            .connection-status {
-                position: static;
-                margin: 10px auto;
-                width: fit-content;
+            .logout-btn:active {
+                transform: scale(0.98);
+            }
+
+            input[type="text"]:focus, 
+            input[type="password"]:focus, 
+            select:focus {
+                transform: translateY(0);
             }
         }
     </style>
 </head>
 <body>
+    <!-- Background Particles -->
+    <div class="bg-particles" id="particles"></div>
+
     <!-- Connection Status -->
     <div id="connectionStatus" class="connection-status status-checking">
-        Memeriksa koneksi...
+        🔄 Memeriksa koneksi...
     </div>
 
     <div class="login-container">
@@ -324,21 +588,31 @@
             <form id="loginFormElement">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required autocomplete="username">
+                    <div class="input-wrapper">
+                        <input type="text" id="username" name="username" required autocomplete="username" placeholder="Masukkan username">
+                        <span class="input-icon">👤</span>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="Masukkan password">
+                        <span class="input-icon">🔒</span>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">👁️</button>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="role">Role</label>
-                    <select id="role" name="role" required>
-                        <option value="">Pilih Role</option>
-                        <option value="guru">Guru</option>
-                        <option value="siswa">Siswa</option>
-                    </select>
+                    <div class="input-wrapper">
+                        <select id="role" name="role" required>
+                            <option value="">Pilih Role</option>
+                            <option value="guru">👨‍🏫 Guru</option>
+                            <option value="siswa">👨‍🎓 Siswa</option>
+                        </select>
+                        <span class="input-icon">🎯</span>
+                    </div>
                 </div>
 
                 <button type="submit" class="login-btn">
@@ -353,34 +627,65 @@
         <!-- Dashboard -->
         <div id="dashboard" class="dashboard">
             <div class="welcome-card">
-                <h2>Selamat Datang!</h2>
+                <h2>🎉 Selamat Datang!</h2>
                 <p id="welcomeText">Login berhasil</p>
             </div>
 
             <div class="user-info">
-                <h3>Informasi User</h3>
+                <h3>📋 Informasi User</h3>
                 <p><strong>Username:</strong> <span id="displayUsername">-</span></p>
                 <p><strong>Nama:</strong> <span id="displayName">-</span></p>
                 <p><strong>Role:</strong> <span id="displayRole" class="role-badge">-</span></p>
                 <p><strong>Waktu Login:</strong> <span id="displayLoginTime">-</span></p>
             </div>
 
-            <button class="logout-btn" onclick="logout()">Logout</button>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
         </div>
     </div>
 
     <script>
-        // URL Google Apps Script - Ganti dengan URL deployment Anda
+        // URL Google Apps Script
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8mLPXiCyhbahlvUPteHcD5b_wgTam7ow7iXOUTnUTW9o-92cF4LPo9caIHG4FB2L5tg/exec';
         
-        // Variabel untuk retry dan timeout
         const MAX_RETRY_ATTEMPTS = 3;
-        const REQUEST_TIMEOUT = 30000; // 30 detik
+        const REQUEST_TIMEOUT = 30000;
         
-        // Check connection status saat load
+        // Create animated particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 15 : 25;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 60 + 20 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = Math.random() * 10 + 10 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
         window.addEventListener('load', function() {
+            createParticles();
             checkConnection();
         });
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
 
         document.getElementById('loginFormElement').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -389,15 +694,13 @@
             const password = document.getElementById('password').value;
             const role = document.getElementById('role').value;
             
-            // Validasi input
             if (!username || !password || !role) {
-                showMessage('Mohon lengkapi semua field!', 'error');
+                showMessage('⚠️ Mohon lengkapi semua field!', 'error');
                 return;
             }
 
-            // Validasi role
             if (role !== 'guru' && role !== 'siswa') {
-                showMessage('Pilih role yang valid!', 'error');
+                showMessage('⚠️ Pilih role yang valid!', 'error');
                 return;
             }
 
@@ -410,14 +713,12 @@
             try {
                 console.log(`Login attempt ${attempt} for user: ${username}, role: ${role}`);
                 
-                // Buat FormData untuk POST request
                 const formData = new FormData();
                 formData.append('action', 'login');
                 formData.append('username', username);
                 formData.append('password', password);
                 formData.append('role', role);
 
-                // Buat request dengan timeout
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
 
@@ -441,37 +742,35 @@
                 console.log('Login response:', result);
                 
                 if (result.success) {
-                    showMessage('Login berhasil!', 'success');
+                    showMessage('✅ Login berhasil!', 'success');
                     updateConnectionStatus('online');
                     
-                    // Delay sebelum redirect/dashboard
                     setTimeout(() => {
                         showDashboard(result.user);
                     }, 1000);
                 } else {
-                    showMessage(result.message || 'Login gagal! Periksa username, password, dan role.', 'error');
-                    updateConnectionStatus('online'); // Server respond tapi login gagal
+                    showMessage('❌ ' + (result.message || 'Login gagal! Periksa username, password, dan role.'), 'error');
+                    updateConnectionStatus('online');
                 }
                 
             } catch (error) {
                 console.error(`Login attempt ${attempt} failed:`, error);
                 
-                // Handle different error types
                 if (error.name === 'AbortError') {
-                    showMessage('Request timeout. Koneksi terlalu lambat.', 'error');
+                    showMessage('⏱️ Request timeout. Koneksi terlalu lambat.', 'error');
                 } else if (error.message.includes('Failed to fetch')) {
                     updateConnectionStatus('offline');
                     if (attempt < MAX_RETRY_ATTEMPTS) {
-                        showMessage(`Gagal terhubung. Mencoba lagi... (${attempt}/${MAX_RETRY_ATTEMPTS})`, 'error');
+                        showMessage(`🔄 Gagal terhubung. Mencoba lagi... (${attempt}/${MAX_RETRY_ATTEMPTS})`, 'error');
                         setTimeout(() => {
                             performLogin(username, password, role, attempt + 1);
-                        }, 2000 * attempt); // Exponential backoff
+                        }, 2000 * attempt);
                         return;
                     } else {
-                        showMessage('Tidak dapat terhubung ke server. Periksa koneksi internet.', 'error');
+                        showMessage('🔌 Tidak dapat terhubung ke server. Periksa koneksi internet.', 'error');
                     }
                 } else {
-                    showMessage('Terjadi kesalahan: ' + error.message, 'error');
+                    showMessage('⚠️ Terjadi kesalahan: ' + error.message, 'error');
                 }
                 
             } finally {
@@ -481,7 +780,7 @@
 
         async function checkConnection() {
             const statusElement = document.getElementById('connectionStatus');
-            statusElement.textContent = 'Memeriksa koneksi...';
+            statusElement.textContent = '🔄 Memeriksa koneksi...';
             statusElement.className = 'connection-status status-checking';
             
             try {
@@ -513,15 +812,15 @@
             
             switch (status) {
                 case 'online':
-                    statusElement.textContent = 'Online';
+                    statusElement.textContent = '✅ Online';
                     statusElement.className = 'connection-status status-online';
                     break;
                 case 'offline':
-                    statusElement.textContent = 'Offline';
+                    statusElement.textContent = '❌ Offline';
                     statusElement.className = 'connection-status status-offline';
                     break;
                 default:
-                    statusElement.textContent = 'Memeriksa...';
+                    statusElement.textContent = '🔄 Memeriksa...';
                     statusElement.className = 'connection-status status-checking';
             }
         }
@@ -532,7 +831,6 @@
             messageDiv.className = `message ${type}`;
             messageDiv.style.display = 'block';
             
-            // Auto hide after 7 seconds for error, 3 seconds for success
             const hideDelay = type === 'error' ? 7000 : 3000;
             setTimeout(() => {
                 messageDiv.style.display = 'none';
@@ -558,35 +856,30 @@
         function showDashboard(user) {
             console.log('Showing dashboard for user:', user);
             
-            // Jika role guru, redirect ke menu.html
             if (user.role.toLowerCase() === 'guru') {
-                showMessage('Login berhasil! Mengarahkan ke menu utama...', 'success');
+                showMessage('✅ Login berhasil! Mengarahkan ke menu utama...', 'success');
                 setTimeout(() => {
                     window.location.href = 'menu.html';
                 }, 1500);
                 return;
             }
             
-            // Jika role siswa, redirect ke sd40utara.pages.dev
             if (user.role.toLowerCase() === 'siswa') {
-                showMessage('Login berhasil! Mengarahkan ke dashboard siswa...', 'success');
+                showMessage('✅ Login berhasil! Mengarahkan ke dashboard siswa...', 'success');
                 setTimeout(() => {
                     window.location.href = 'student.html';
                 }, 1500);
                 return;
             }
             
-            // Fallback - tampilkan dashboard default jika role tidak dikenali
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
             
-            // Update informasi user
             document.getElementById('displayUsername').textContent = user.username || '-';
             document.getElementById('displayName').textContent = user.name || user.username || '-';
             document.getElementById('displayRole').textContent = user.role.toUpperCase();
             document.getElementById('displayRole').className = `role-badge role-${user.role.toLowerCase()}`;
             
-            // Format login time
             if (user.loginTime) {
                 const loginDate = new Date(user.loginTime);
                 const formattedTime = loginDate.toLocaleString('id-ID', {
@@ -604,19 +897,16 @@
         }
 
         function logout() {
-            // Reset form dan tampilan
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('loginFormElement').reset();
             document.getElementById('message').style.display = 'none';
             
-            // Reset connection status check
             setTimeout(checkConnection, 500);
             
-            showMessage('Anda telah logout. Silakan login kembali.', 'success');
+            showMessage('👋 Anda telah logout. Silakan login kembali.', 'success');
         }
 
-        // Auto-hide messages on click
         document.addEventListener('click', function(e) {
             const messageDiv = document.getElementById('message');
             if (messageDiv.style.display === 'block' && !messageDiv.contains(e.target)) {
@@ -626,20 +916,29 @@
             }
         });
 
-        // Retry connection on click
         document.getElementById('connectionStatus').addEventListener('click', function() {
             if (this.classList.contains('status-offline')) {
                 checkConnection();
             }
         });
 
-        // Auto retry connection every 30 seconds if offline
         setInterval(() => {
             const statusElement = document.getElementById('connectionStatus');
             if (statusElement.classList.contains('status-offline')) {
                 checkConnection();
             }
         }, 30000);
+
+        // Add touch feedback for mobile
+        const interactiveElements = document.querySelectorAll('input, select, button');
+        interactiveElements.forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            element.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
     </script>
 </body>
 </html>
